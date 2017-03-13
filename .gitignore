@@ -1,3 +1,5 @@
 key
 *.swp
+*secret*
+playlists/*.csv
 
