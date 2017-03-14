@@ -57,16 +57,15 @@ def get_credentials():
 
 def get_service(credentials):
     http = credentials.authorize(httplib2.Http())
-    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
+    discovery_Url = ('https://sheets.googleapis.com/$discovery/rest?'
                     'version=v4')
-    return discovery.build('sheets', 'v4', http=http,
-                              discoveryServiceUrl=discoveryUrl)
+    return discovery.build('sheets', 'v4', http=http, discoveryServiceUrl=discovery_Url)
 
 
 def get_spreadsheet_contents(ssID, service):
-    rangeName = 'A2:C'
+    range_name = 'A2:C'
     result = service.spreadsheets().values().get(
-            spreadsheetId=ssID, range=rangeName
+            spreadsheetId=ssID, range=range_name
             ).execute()
     return result.get('values', [])
 
@@ -109,7 +108,7 @@ def sheet_id_from_url(url):
 
 def log_linked_sheets(entries, service):
     for date, loc, short_link in entries:
-        
+
         filename = date + '_' + loc
         path = 'playlists/' + filename
 
@@ -139,8 +138,10 @@ def main():
     log_sheet(SPREADSHEET_ID, service, 'dj-set-collection')
 
     # check most recent entries in dj-set-collection and log
-    log_linked_sheets(read_csv('dj-set-collection'), service)
+    with open('dj-set-collection.csv', 'r') as source_csv:
+        log_linked_sheets(read_csv('dj-set-collection'), service)
     print('\nLogs refreshed!')
+
 
 if __name__ == "__main__":
     main()

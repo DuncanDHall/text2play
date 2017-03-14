@@ -38,7 +38,7 @@ for line in data:
     r = sp.search(title)
 
     if playCount <= 5:
-        print title + " by " + artist + " skipped (low play count)"
+        print(title + " by " + artist + " skipped (low play count)")
         continue
 
     found = False
